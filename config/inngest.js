@@ -1,6 +1,10 @@
 import { Inngest } from "inngest";
-import connectDb from "@/lib/mongodb"; // Adjust path as needed
-import User from "@/models/User";      // Your Mongoose user model
+import User from '../models/userModel.js';
+import connectDb from '../config/db.js';
+
+
+
+     // Your Mongoose user model
 
 // 1. Create an Inngest client instance
 export const inngest = new Inngest({ id: "quickcart-next" });
@@ -58,8 +62,8 @@ export const syncUserUpdation = inngest.createFunction(
 
 // Inngest Function to update user data in the database
 export const syncUserDeletion = inngest.createFunction(
-  { id: "sync-user-update-from-clerk" },
-  { event: "clerk/user.updated" },
+  { id: "sync-user-delete-from-clerk" },  // <== new unique ID
+  { event: "clerk/user.deleted" },       // <== correct event for deletion
   async ({ event, step }) => {
     const { id, email, first_name, last_name, image_url } = event.data;
 
